@@ -6,6 +6,16 @@
 
 
     <!-- ====================   Consumer   ==================== -->
+    <!-- FICHIERS PROPERTIES A RECUPERER -->	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+            <value>classpath:/com/dummy/myerp/consumer/db.properties</value>
+        </list>
+    </property>
+	</bean>
+    
+    
     <!-- AbstractDbConsumer -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetClass" value="com.dummy.myerp.consumer.db.AbstractDbConsumer"/>
@@ -15,6 +25,11 @@
                 <entry value-ref="dataSourceMYERP">
                     <key>
                         <value type="com.dummy.myerp.consumer.db.DataSourcesEnum">MYERP</value>
+                    </key>
+                </entry>
+                <entry value-ref="dataSourceDB">
+                    <key>
+                        <value type="com.dummy.myerp.consumer.db.DataSourcesEnum">DB</value>
                     </key>
                 </entry>
             </map>
@@ -45,6 +60,15 @@
     <!-- ==================== Databases ==================== -->
     <bean id="dataSourceMYERP" class="com.dummy.myerp.technical.util.spring.NullFactoryBean">
         <constructor-arg value="javax.sql.DataSource"/>
+    </bean>
+    
+    <bean id="dataSourceDB" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.connection.driver_class}" />
+		<property name="url" value="${db.connection.url}" />
+		<property name="username" value="${db.connection.username}" />
+		<property name="password" value="${db.connection.password}" />
+    
+    
     </bean>
 
 

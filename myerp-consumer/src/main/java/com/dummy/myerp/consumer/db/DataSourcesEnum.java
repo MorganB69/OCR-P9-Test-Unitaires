@@ -6,6 +6,6 @@ package com.dummy.myerp.consumer.db;
 public enum DataSourcesEnum {
 
     /** MYERP */
-    MYERP,
+    MYERP,DB,
 
 }
