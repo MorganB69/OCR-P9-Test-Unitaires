@@ -19,7 +19,8 @@
         <property name="dataSource" ref="dataSourceMYERP"/>
     </bean>
     </beans>
-    <beans profile="prod">
+    
+    <beans profile="test">
         <bean id="TransactionManager"
           class="com.dummy.myerp.business.impl.TransactionManager"
           scope="singleton"

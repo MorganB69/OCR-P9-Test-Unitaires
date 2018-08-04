@@ -6,14 +6,7 @@
 
 
     <!-- ====================   Consumer   ==================== -->
-    <!-- FICHIERS PROPERTIES A RECUPERER -->	
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="locations">
-        <list>
-            <value>classpath:/com/dummy/myerp/consumer/db.properties</value>
-        </list>
-    </property>
-	</bean>
+
     
     
     <!-- AbstractDbConsumer -->
@@ -62,6 +55,20 @@
         <constructor-arg value="javax.sql.DataSource"/>
     </bean>
     
+     <!-- ========== SQL ========== -->
+    <import resource="sqlContext.xml"/>
+    
+   
+    <!-- FICHIERS PROPERTIES A RECUPERER -->
+    	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+            <value>classpath:/com/dummy/myerp/consumer/db.properties</value>
+        </list>
+    </property>
+	</bean>
+    
     <bean id="dataSourceDB" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${db.connection.driver_class}" />
 		<property name="url" value="${db.connection.url}" />
@@ -70,8 +77,8 @@
     
     
     </bean>
+	
 
 
-    <!-- ========== SQL ========== -->
-    <import resource="sqlContext.xml"/>
+
 </beans>
