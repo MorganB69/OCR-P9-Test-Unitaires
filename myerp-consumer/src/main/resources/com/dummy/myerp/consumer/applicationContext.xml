@@ -20,11 +20,7 @@
                         <value type="com.dummy.myerp.consumer.db.DataSourcesEnum">MYERP</value>
                     </key>
                 </entry>
-                <entry value-ref="dataSourceDB">
-                    <key>
-                        <value type="com.dummy.myerp.consumer.db.DataSourcesEnum">DB</value>
-                    </key>
-                </entry>
+
             </map>
         </property>
     </bean>
@@ -48,17 +44,24 @@
     <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
         <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
     </bean>
+    
+    <!-- ========== SQL ========== -->
+    <import resource="sqlContext.xml"/>
+    
 
 
     <!-- ==================== Databases ==================== -->
+    <!-- EN DEVELOPPEMENT -->
+    <beans profile="dev">
     <bean id="dataSourceMYERP" class="com.dummy.myerp.technical.util.spring.NullFactoryBean">
         <constructor-arg value="javax.sql.DataSource"/>
     </bean>
+    </beans>
     
-     <!-- ========== SQL ========== -->
-    <import resource="sqlContext.xml"/>
     
-   
+    <!-- EN INTEGRATION -->
+    <beans profile="test">
+    
     <!-- FICHIERS PROPERTIES A RECUPERER -->
     	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -69,7 +72,7 @@
     </property>
 	</bean>
     
-    <bean id="dataSourceDB" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${db.connection.driver_class}" />
 		<property name="url" value="${db.connection.url}" />
 		<property name="username" value="${db.connection.username}" />
@@ -77,6 +80,13 @@
     
     
     </bean>
+    </beans>
+    
+    
+    
+
+   
+    
 	
 
 

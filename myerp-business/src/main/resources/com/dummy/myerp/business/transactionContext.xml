@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 	
-	<beans profile="dev">
+	
     <!-- Transaction Manager -->
     <bean id="TransactionManager"
           class="com.dummy.myerp.business.impl.TransactionManager"
@@ -18,19 +18,7 @@
     <bean id="txManagerMYERP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceMYERP"/>
     </bean>
-    </beans>
+
     
-    <beans profile="test">
-        <bean id="TransactionManager"
-          class="com.dummy.myerp.business.impl.TransactionManager"
-          scope="singleton"
-          factory-method="getInstance">
-        <constructor-arg ref="txManagerDB"/>
-    </bean>
-    
-        <!-- PlatformTransactionManager pour le DataSource DB -->
-    <bean id="txManagerDB" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSourceDB"/>
-    </bean>
-    </beans>
+   
 </beans>

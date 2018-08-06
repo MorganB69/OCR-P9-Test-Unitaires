@@ -56,7 +56,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}		
      */
     // TODO à tester
     @Override
