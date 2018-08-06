@@ -111,14 +111,19 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	String ref = "";
     	//Rajout du code du journal
     	ref+=pEcritureComptable.getJournal().getCode();
+    	ref+="-";
     	//Rajout de la date
     	 	Calendar calendar = Calendar.getInstance();
     	 	calendar.setTime(pEcritureComptable.getDate());	     
     	ref+=String.valueOf(calendar.get(Calendar.YEAR));
+    	ref+="-";
     	//Rajout de dernière séquence
     	ref+=String.format("%05d", derniereSequence);
     	
+    	//Mise à jour de la référence
     	pEcritureComptable.setReference(ref);
+    	
+    	//Enregistrement de la séquence en base de données
     	
     	//Si la séquence n'existait pas, on paramètre la nouvelle puis on l'insert en bd
     	if(vSequenceEcritureComptable==null) {
@@ -141,7 +146,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	}
     	
     	
-    	//Enregistrement de la séquence en base de données
+
     	
     	
     	
