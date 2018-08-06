@@ -1,6 +1,7 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -15,6 +16,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -48,12 +50,23 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
     /**
-     * {@inheritDoc}
+     * 
      */
     @Override
     public List<EcritureComptable> getListEcritureComptable() {
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
+    
+    /* (non-Javadoc)
+     * {@inheritDoc}
+     * */
+    @Override
+    public SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) {
+    	return getDaoProxy().getComptabiliteDao().getLastSequence(pEcritureComptable);
+    	
+    }
+    
+
 
     /**
      * {@inheritDoc}		
@@ -74,6 +87,50 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+    	
+
+    	SequenceEcritureComptable vSequenceEcritureComptable;
+    	SequenceEcritureComptable vSequenceToInsert;
+    	
+    	vSequenceEcritureComptable = new SequenceEcritureComptable();   	
+    	vSequenceToInsert = new SequenceEcritureComptable();
+    	
+    	//Récupération de la dernière séquence
+    	vSequenceEcritureComptable= getLastSequence(pEcritureComptable);
+    	
+    	//Calcul de la dernière séquence
+    	int derniereSequence;
+    	if(vSequenceEcritureComptable==null) {
+    		derniereSequence=1;
+    	}
+    	else {
+    		derniereSequence=vSequenceEcritureComptable.getDerniereValeur()+1;
+    	}
+    	
+    	//Composition de la référence
+    	String ref = "";
+    	//Rajout du code du journal
+    	ref+=pEcritureComptable.getJournal().getCode();
+    	//Rajout de la date
+    	 	Calendar calendar = Calendar.getInstance();
+    	 	calendar.setTime(pEcritureComptable.getDate());	     
+    	ref+=String.valueOf(calendar.get(Calendar.YEAR));
+    	//Rajout de dernière séquence
+    	ref+=String.format("%05d", derniereSequence);
+    	
+    	pEcritureComptable.setReference(ref);
+    	
+    	if(vSequenceEcritureComptable==null) {
+    		vSequenceToInsert.setAnnee(calendar.get(Calendar.YEAR));
+    		vSequenceToInsert.setDerniereValeur(derniereSequence);
+
+    	}
+    	
+    	
+    	//Enregistrement de la séquence en base de données
+    	
+    	
+    	
     }
 
     /**
