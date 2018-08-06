@@ -89,6 +89,22 @@ public interface ComptabiliteDao {
      * @param pId l'id de l'écriture
      */
     void deleteEcritureComptable(Integer pId);
+
+
+	/**
+	 * Insert la séquence en base de données
+	 * @param vSequenceToInsert
+	 * @param code
+	 */
+	void insertSequence(SequenceEcritureComptable vSequenceToInsert, String code);
+
+
+	/**
+	 * Met à jour la séquence en base de données
+	 * @param vSequenceToInsert
+	 * @param code
+	 */
+	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code);
     
     
 }

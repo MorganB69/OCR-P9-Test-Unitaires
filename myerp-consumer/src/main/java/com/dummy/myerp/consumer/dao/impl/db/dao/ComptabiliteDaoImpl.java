@@ -299,6 +299,18 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
     
     }
+
+	@Override
+	public void insertSequence(SequenceEcritureComptable vSequenceToInsert, String code) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code) {
+		// TODO Auto-generated method stub
+		
+	}
     }
 
 

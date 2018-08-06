@@ -120,10 +120,24 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	
     	pEcritureComptable.setReference(ref);
     	
+    	//Si la séquence n'existait pas, on paramètre la nouvelle puis on l'insert en bd
     	if(vSequenceEcritureComptable==null) {
     		vSequenceToInsert.setAnnee(calendar.get(Calendar.YEAR));
     		vSequenceToInsert.setDerniereValeur(derniereSequence);
-
+    		
+    		insertSequence(vSequenceToInsert,pEcritureComptable.getJournal().getCode());
+    	}
+    	//Sinon on part de la séquence récupérée, on modifie et l'update.
+    	else {
+    		vSequenceToInsert=vSequenceEcritureComptable;
+    		vSequenceToInsert.setDerniereValeur(derniereSequence);
+    		
+    		try {
+				updateSequence(vSequenceToInsert, pEcritureComptable.getJournal().getCode());
+			} catch (FunctionalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	}
     	
     	
@@ -133,7 +147,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	
     }
 
-    /**
+
+
+
+	/**
      * {@inheritDoc}
      */
     // TODO à tester
@@ -261,6 +278,32 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().deleteEcritureComptable(pId);
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
+        }
+    }
+    
+    
+    @Override
+    public void insertSequence(SequenceEcritureComptable vSequenceToInsert, String code) {
+    	 TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+         try {
+             getDaoProxy().getComptabiliteDao().insertSequence(vSequenceToInsert,code);
+             getTransactionManager().commitMyERP(vTS);
+             vTS = null;
+         } finally {
+             getTransactionManager().rollbackMyERP(vTS);
+         }
+		
+	}
+    
+    @Override
+    public void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code) throws FunctionalException {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+        try {
+            getDaoProxy().getComptabiliteDao().updateSequence(vSequenceToInsert,code);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
         } finally {

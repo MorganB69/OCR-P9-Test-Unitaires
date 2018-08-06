@@ -93,5 +93,22 @@ public interface ComptabiliteManager {
     void deleteEcritureComptable(Integer pId);
 
 
+	/**
+	 * Insert une nouvelle séquence
+	 * @param vSequenceToInsert
+	 * @param code
+	 */
+	void insertSequence(SequenceEcritureComptable vSequenceToInsert, String code);
+
+
+	/**
+	 * Met à jour une séquence
+	 * @param vSequenceToInsert
+	 * @param code
+	 * @throws FunctionalException
+	 */
+	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code) throws FunctionalException;
+
+
 	
 }
