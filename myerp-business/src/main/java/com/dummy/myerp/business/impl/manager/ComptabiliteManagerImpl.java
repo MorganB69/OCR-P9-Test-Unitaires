@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -27,7 +29,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 public class ComptabiliteManagerImpl extends AbstractBusinessManager implements ComptabiliteManager {
 
     // ==================== Attributs ====================
-
+	
 
     // ==================== Constructeurs ====================
     /**
@@ -88,8 +90,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                     (table sequence_ecriture_comptable)
          */
     	
-
+    	//Dernière séquence à récupérer
     	SequenceEcritureComptable vSequenceEcritureComptable;
+    	
+    	//Séquence à update ou insérer en DAO
     	SequenceEcritureComptable vSequenceToInsert;
     	
     	vSequenceEcritureComptable = new SequenceEcritureComptable();   	
@@ -120,8 +124,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	//Rajout de dernière séquence
     	ref+=String.format("%05d", derniereSequence);
     	
+    	
     	//Mise à jour de la référence
     	pEcritureComptable.setReference(ref);
+    	
     	
     	//Enregistrement de la séquence en base de données
     	
@@ -315,4 +321,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
-}
+    
+    public String testString() {
+    	return	getDaoProxy().getComptabiliteDao().testString();
+    }
+    }

@@ -109,6 +109,6 @@ public interface ComptabiliteManager {
 	 */
 	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code) throws FunctionalException;
 
-
+	String testString();
 	
 }
