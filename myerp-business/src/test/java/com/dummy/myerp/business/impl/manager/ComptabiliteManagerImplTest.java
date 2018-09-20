@@ -34,13 +34,13 @@ public class ComptabiliteManagerImplTest {
 	private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
     
 	//MOCK DU PROXY DAO
-	private DaoProxy daoProxyMock= mock(DaoProxy.class, withSettings().verboseLogging());
+	private DaoProxy daoProxyMock= mock(DaoProxy.class);
 	
 	//MOCK DU TRANSACTION MANAGER
-	private TransactionManager transactionManagerMock= mock(TransactionManager.class, withSettings().verboseLogging());
+	private TransactionManager transactionManagerMock= mock(TransactionManager.class);
 	
 	//MOCK DE COMPTADAO
-	private ComptabiliteDaoImpl comptaDaoMock = mock(ComptabiliteDaoImpl.class, withSettings().verboseLogging());
+	private ComptabiliteDaoImpl comptaDaoMock = mock(ComptabiliteDaoImpl.class);
     
 	
 	/**
@@ -72,11 +72,11 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.setReference("AC-2018/00001");
         vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                 null, new BigDecimal(123),
+                                                                                 null, new BigDecimal("123.42"),
                                                                                  null));
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
-                                                                                 new BigDecimal(123)));
+                                                                                 new BigDecimal("123.42")));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
@@ -131,6 +131,33 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
     
+    /**
+     * Verification avec un montant negatif sur une ligne d ecriture comptable possible
+     * @throws Exception
+     */
+    @Test
+    public void checkEcritureComptableUnitRG4() throws Exception {
+        EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("-12"),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal("15"),
+                null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("3")));
+        System.out.println(vEcritureComptable.toString());
+        
+        vEcritureComptable.setReference("AC-2018/00123");
+        manager.checkEcritureComptableUnit(vEcritureComptable);
+    }
+    
 
 
     /**
@@ -138,15 +165,16 @@ public class ComptabiliteManagerImplTest {
      */
     @Test
     public void checkAdd() {
-        EcritureComptable pEcritureComptable;
-        pEcritureComptable = new EcritureComptable();
-        pEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        pEcritureComptable.setDate(new Date());
-        pEcritureComptable.setLibelle("Libelle");
-        pEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+        EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
-        pEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
         SequenceEcritureComptable vSeq1= new SequenceEcritureComptable();
@@ -161,21 +189,21 @@ public class ComptabiliteManagerImplTest {
 
 
         
-        when(this.comptaDaoMock.getLastSequence(pEcritureComptable)).thenReturn(vSeq1); 
+        when(this.comptaDaoMock.getLastSequence(vEcritureComptable)).thenReturn(vSeq1); 
         doNothing().when(this.comptaDaoMock).insertSequence(Mockito.any(),Mockito.any());
         doNothing().when(this.comptaDaoMock).updateSequence(Mockito.any(),Mockito.any());
 
         
-        this.manager.addReference(pEcritureComptable);
+        this.manager.addReference(vEcritureComptable);
         
 
 
-        assertTrue("sequence existante :"+ pEcritureComptable.toString(), pEcritureComptable.getReference().equals("AC-2018/00016"));
+        assertTrue("sequence existante :"+ vEcritureComptable.toString(), vEcritureComptable.getReference().equals("AC-2018/00016"));
         
         
-        when(this.comptaDaoMock.getLastSequence(pEcritureComptable)).thenReturn(vSeq2);                
-        this.manager.addReference(pEcritureComptable);	
-        assertTrue("sequence non existante" + pEcritureComptable.toString(), pEcritureComptable.getReference().equals("AC-2018/00001"));
+        when(this.comptaDaoMock.getLastSequence(vEcritureComptable)).thenReturn(vSeq2);                
+        this.manager.addReference(vEcritureComptable);	
+        assertTrue("sequence non existante" + vEcritureComptable.toString(), vEcritureComptable.getReference().equals("AC-2018/00001"));
         
        
     
@@ -223,6 +251,30 @@ public class ComptabiliteManagerImplTest {
                                                                                  new BigDecimal(123)));
         
         vEcritureComptable.setReference("AC-2017/00123");
+        manager.checkEcritureComptableUnit(vEcritureComptable);
+    }
+    
+    /**
+     * Verifie qu'une exception est lancee si une ligne d'ecriture a plus de 2 chiffres apres la virgule
+     * @throws Exception
+     */
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptableUnitRG7() throws Exception {
+        EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("123.124"),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("123.124")));
+        System.out.println(vEcritureComptable.toString());
+        
+        vEcritureComptable.setReference("AC-2018/00123");
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 

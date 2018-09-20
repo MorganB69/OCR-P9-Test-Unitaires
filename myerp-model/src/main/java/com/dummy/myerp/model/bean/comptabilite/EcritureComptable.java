@@ -2,6 +2,7 @@ package com.dummy.myerp.model.bean.comptabilite;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,6 +89,7 @@ public class EcritureComptable {
                 vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
             }
         }
+        vRetour=vRetour.setScale(2,RoundingMode.UP);
         return vRetour;
     }
 
@@ -103,6 +105,8 @@ public class EcritureComptable {
                 vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
             }
         }
+        vRetour=vRetour.setScale(2,RoundingMode.UP);
+        
         return vRetour;
     }
 
@@ -111,7 +115,7 @@ public class EcritureComptable {
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().setScale(2).equals(getTotalCredit().setScale(2));
+        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
         return vRetour;
     }
 
