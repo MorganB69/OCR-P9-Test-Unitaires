@@ -2,6 +2,7 @@ package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -120,7 +121,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	 	Calendar calendar = Calendar.getInstance();
     	 	calendar.setTime(pEcritureComptable.getDate());	     
     	ref+=String.valueOf(calendar.get(Calendar.YEAR));
-    	ref+="-";
+    	ref+="/";
     	//Rajout de dernière séquence
     	ref+=String.format("%05d", derniereSequence);
     	
@@ -219,6 +220,30 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        if(pEcritureComptable.getReference()!=null) {
+        String journal=new String();
+        String date=new String();
+        String refToTest=pEcritureComptable.getReference();
+        journal=refToTest.substring(0, refToTest.indexOf("-"));
+        date= refToTest.substring(refToTest.indexOf("-")+1, refToTest.indexOf("-")+5);
+        System.out.println(journal + " "+date);
+	 	
+        //Récupération de l'année
+        Calendar calendar = Calendar.getInstance();
+	 	String dateToTest=new String();
+	 	calendar.setTime(pEcritureComptable.getDate());	     
+	 	dateToTest=String.valueOf(calendar.get(Calendar.YEAR));
+	 	
+	 	if(!dateToTest.equals(date))throw new FunctionalException(
+                "La date de la référence ne correspond pas à la date de l'écriture.");
+        
+    	
+	 	if(!journal.equals(pEcritureComptable.getJournal().getCode()))throw new FunctionalException(
+	            "Le code du journal de la référence ne correspond pas au code du journal de l'écriture.");
+	    
+        }
+		
+    
     }
 
 
