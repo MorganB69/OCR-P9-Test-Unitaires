@@ -1,6 +1,9 @@
 package com.dummy.myerp.business.impl.manager;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -277,6 +280,75 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.setReference("AC-2018/00123");
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
+    
+    
+    /**
+     * Verifie qu'une exception est lancee si la référence n'est pas unique
+     * @throws Exception
+     */
+    @Test
+    public void checkEcritureComptableContextRG7() throws Exception {
+        //ECRITURE COMPTABLE A TESTER
+    	EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("123.124"),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("123.124")));
+        
+        vEcritureComptable.setReference("AC-2018/00123");
+        
+        //ECRITURE DE LA DAO MOCKEE AVEC LA MEME REF
+        EcritureComptable daoEcritureComptable;
+        daoEcritureComptable = new EcritureComptable();
+        daoEcritureComptable.setId(12);
+        daoEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar2 = new GregorianCalendar(2018,1,1);
+        daoEcritureComptable.setDate(calendar2.getTime());
+        daoEcritureComptable.setLibelle("Libelle");
+        daoEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("123.124"),
+                                                                                 null));
+        daoEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("123.124")));
+        
+        daoEcritureComptable.setReference("AC-2018/00123");
+        
+        when(this.comptaDaoMock.getEcritureComptableByRef(vEcritureComptable.getReference())).thenReturn(daoEcritureComptable); 
+        
+        
+        //VERIFICATION QU UNE FUNCTIONAL EXCEPTION EST LEVEE SI MEME REF ET NOUVELLE ECRITURE(ID : null)
+        try {
+        	manager.checkEcritureComptableContext(vEcritureComptable);
+            fail("Functional Exception attendu");
+        } catch (FunctionalException e) {
+            assertThat(e.getMessage(), is("Une autre écriture comptable existe déjà avec la même référence."));
+        }
+        
+        //VERIFICATION QU UNE FUNCTIONAL EXCEPTION EST LEVEE SI MEME REF ET ID DIFFERENTS
+        vEcritureComptable.setId(13);
+        try {
+        	manager.checkEcritureComptableContext(vEcritureComptable);
+            fail("Functional Exception attendu");
+        } catch (FunctionalException e) {
+            assertThat(e.getMessage(), is("Une autre écriture comptable existe déjà avec la même référence."));
+        }
+        
+        //VERIFICATION QU IL N Y A PAS D ERREUR SI L ID EST LE MEME
+        vEcritureComptable.setId(12);
+        manager.checkEcritureComptableContext(vEcritureComptable);
+        
+        
+       
+    }
+
 
     
 
