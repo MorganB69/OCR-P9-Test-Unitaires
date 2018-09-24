@@ -287,7 +287,7 @@ public class ComptabiliteManagerImplTest {
      * @throws Exception
      */
     @Test
-    public void checkEcritureComptableContextRG7() throws Exception {
+    public void checkEcritureComptableContextRG6() throws Exception {
         //ECRITURE COMPTABLE A TESTER
     	EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
