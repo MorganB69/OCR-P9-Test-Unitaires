@@ -12,6 +12,6 @@ services:
       - POSTGRES_DB=${DB}
       - POSTGRES_USER=${USERNAME}
       - POSTGRES_PASSWORD=${PASSWORD}
-      
-    container_name:postgres
+
+    container_name: postgres
       
