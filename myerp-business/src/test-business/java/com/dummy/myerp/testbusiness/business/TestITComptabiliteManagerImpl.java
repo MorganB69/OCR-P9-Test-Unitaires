@@ -15,7 +15,7 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
-public class BusinessManagerTestIT {
+public class TestITComptabiliteManagerImpl {
 	
 	//CLASSE A TESTER
 	private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
