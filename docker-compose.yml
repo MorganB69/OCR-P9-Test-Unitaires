@@ -13,3 +13,5 @@ services:
       - POSTGRES_USER=${USERNAME}
       - POSTGRES_PASSWORD=${PASSWORD}
       
+    container_name:postgres
+      
