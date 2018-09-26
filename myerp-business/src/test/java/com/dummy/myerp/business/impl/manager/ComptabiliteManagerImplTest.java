@@ -155,7 +155,7 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
                                                                                  new BigDecimal("3")));
-        System.out.println(vEcritureComptable.toString());
+      
         
         vEcritureComptable.setReference("AC-2018/00123");
         manager.checkEcritureComptableUnit(vEcritureComptable);
@@ -275,7 +275,7 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
                                                                                  new BigDecimal("123.124")));
-        System.out.println(vEcritureComptable.toString());
+        
         
         vEcritureComptable.setReference("AC-2018/00123");
         manager.checkEcritureComptableUnit(vEcritureComptable);
