@@ -10,11 +10,11 @@
             <AppenderRef ref="console"/>
         </Root>
         
-        <logger name="org.springframework.jdbc.core.JdbcTemplate">
+        <logger name="org.springframework.jdbc.core">
   		<level value="debug" />
 		</logger>
 
-		<logger name="org.springframework.jdbc.core.StatementCreatorUtils">
+		<logger name="org.springframework.jdbc.core">
   		<level value="debug" />
 		</logger>
     </Loggers>
