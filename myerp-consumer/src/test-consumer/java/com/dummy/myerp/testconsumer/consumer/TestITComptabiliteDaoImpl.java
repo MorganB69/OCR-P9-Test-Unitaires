@@ -1,8 +1,10 @@
 package com.dummy.myerp.testconsumer.consumer;
 
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -16,8 +18,13 @@ public class TestITComptabiliteDaoImpl {
 	ComptabiliteDaoImpl dao = ComptabiliteDaoImpl.getInstance();
 	
 	@Test
+	public void testDaoNull() {
+		assertNotNull(dao);
+	}
+	
+	@Test
 	public  void getListCompteComptableTest()  {
-		List<CompteComptable>liste;
+		List<CompteComptable>liste = new ArrayList<>();
 		CompteComptable compte = new CompteComptable(401,"Fournisseur");
 		liste=dao.getListCompteComptable();
 		assertTrue(liste.toString(), liste.size()==7);
