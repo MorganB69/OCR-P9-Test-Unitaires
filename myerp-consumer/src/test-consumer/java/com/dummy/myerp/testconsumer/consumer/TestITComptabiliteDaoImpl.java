@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import org.springframework.test.context.ContextConfiguration;
 
 import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 
-
+@ContextConfiguration("com/dummy/myerp/consumer/applicationContext.xml")
 public class TestITComptabiliteDaoImpl {
 	
 	//CLASSE A TESTER
@@ -25,7 +25,7 @@ public class TestITComptabiliteDaoImpl {
 	
 	@Before
 	public void setUp() {
-	SpringRegistry.init();
+	
 		 
 
 	        
