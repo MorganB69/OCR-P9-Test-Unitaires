@@ -9,5 +9,13 @@
         <Root level="WARN">
             <AppenderRef ref="console"/>
         </Root>
+        
+        <logger name="org.springframework.jdbc.core.JdbcTemplate">
+  		<level value="debug" />
+		</logger>
+
+		<logger name="org.springframework.jdbc.core.StatementCreatorUtils">
+  		<level value="debug" />
+		</logger>
     </Loggers>
 </Configuration>
