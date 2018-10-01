@@ -24,7 +24,7 @@ public class TestITComptabiliteDaoImpl {
 	
 	@Test
 	public  void getListCompteComptableTest()  {
-		List<CompteComptable>liste = new ArrayList<>();
+		List<CompteComptable>liste = new ArrayList<CompteComptable>();
 		CompteComptable compte = new CompteComptable(401,"Fournisseur");
 		liste=dao.getListCompteComptable();
 		assertTrue(liste.toString(), liste.size()==7);
