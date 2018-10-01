@@ -61,6 +61,11 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
         CompteComptableRM vRM = new CompteComptableRM();
         List<CompteComptable> vList = vJdbcTemplate.query(SQLgetListCompteComptable, vRM);
+        System.out.println(vJdbcTemplate.toString());
+        System.out.println(vRM.toString());
+        System.out.println(vList.toString());
+        System.out.println(SQLgetListCompteComptable);
+        
         return vList;
     }
 
@@ -75,9 +80,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
         JournalComptableRM vRM = new JournalComptableRM();
         List<JournalComptable> vList = vJdbcTemplate.query(SQLgetListJournalComptable, vRM);
-        System.out.println(vJdbcTemplate.toString());
-        System.out.println(vRM.toString());
-        System.out.println(vList.toString());
+
         return vList;
     }
     
