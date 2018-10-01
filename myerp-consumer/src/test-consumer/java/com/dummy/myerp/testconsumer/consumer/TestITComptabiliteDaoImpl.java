@@ -20,11 +20,13 @@ public class TestITComptabiliteDaoImpl {
 	@Test
 	public void testDaoNull() {
 		assertNotNull(dao);
+
 	}
 	
 	@Test
 	public  void getListCompteComptableTest()  {
-		List<CompteComptable>liste = new ArrayList<CompteComptable>();
+		System.out.println(dao.toString());
+		List<CompteComptable>liste;
 		CompteComptable compte = new CompteComptable(401,"Fournisseur");
 		liste=dao.getListCompteComptable();
 		assertTrue(liste.toString(), liste.size()==7);
