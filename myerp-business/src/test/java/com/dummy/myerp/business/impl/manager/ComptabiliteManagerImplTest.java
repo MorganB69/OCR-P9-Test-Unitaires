@@ -29,6 +29,7 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComptabiliteManagerImplTest {
@@ -343,6 +344,13 @@ public class ComptabiliteManagerImplTest {
         
         //VERIFICATION QU IL N Y A PAS D ERREUR SI L ID EST LE MEME
         vEcritureComptable.setId(12);
+        manager.checkEcritureComptableContext(vEcritureComptable);
+        
+        //VERIFICATION QUE C EST BON SI REF NON TROUVEE ET NOUVELLE ECRITURE
+        daoEcritureComptable=null;
+        when(this.comptaDaoMock.getEcritureComptableByRef(vEcritureComptable.getReference())).thenThrow(NotFoundException.class); 
+        
+        vEcritureComptable.setId(0);
         manager.checkEcritureComptableContext(vEcritureComptable);
         
         
