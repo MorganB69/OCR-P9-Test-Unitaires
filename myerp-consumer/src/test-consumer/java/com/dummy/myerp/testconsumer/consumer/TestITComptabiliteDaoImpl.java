@@ -44,10 +44,10 @@ public class TestITComptabiliteDaoImpl {
 	public  void getListCompteComptableTest()  {
 		System.out.println(dao.toString());
 		List<CompteComptable>liste;
-		CompteComptable compte = new CompteComptable(401,"Fournisseurs");
+		
 		liste=dao.getListCompteComptable();
 		assertTrue("Test taille de la liste attendu Compte Comptable", liste.size()==7);
-		assertTrue("Test du premier élément liste Compte Comptable",liste.get(0).equals(compte));
+		
 		
 	}
 	
