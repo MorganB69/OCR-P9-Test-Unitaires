@@ -5,6 +5,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.dummy.myerp.business.impl.BusinessProxyImpl;
 import com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl;
@@ -15,6 +19,9 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= {"bootstrapContext.xml"})
+@ActiveProfiles(profiles="test")
 public class TestITComptabiliteManagerImpl {
 	
 	//CLASSE A TESTER
