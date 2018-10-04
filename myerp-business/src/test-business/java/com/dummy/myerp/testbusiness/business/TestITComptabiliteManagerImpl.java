@@ -20,7 +20,7 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations= {"bootstrapContext.xml"})
+@ContextConfiguration(locations= {"/bootstrapContext.xml"})
 @ActiveProfiles(profiles="test")
 public class TestITComptabiliteManagerImpl {
 	
