@@ -1,11 +1,11 @@
 version: '2'
 services:
   myerp.db:
-    build: 
+    build: .
     ports:
       - "9032:5432"
     network_mode: bridge
-    volumes:
+#    volumes:
 #      - "./data/db:/var/lib/postgresql/data"
 #       - "./init/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     environment:
