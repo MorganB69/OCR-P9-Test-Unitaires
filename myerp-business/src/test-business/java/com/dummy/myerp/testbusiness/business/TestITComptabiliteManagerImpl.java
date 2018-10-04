@@ -37,10 +37,10 @@ public class TestITComptabiliteManagerImpl {
         vEcritureComptable.setDate(calendar.getTime());
         vEcritureComptable.setReference("AC-2018/00001");
         vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
                                                                                  null, new BigDecimal("123.42"),
                                                                                  null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
                                                                                  null, null,
                                                                                  new BigDecimal("123.42")));
         
