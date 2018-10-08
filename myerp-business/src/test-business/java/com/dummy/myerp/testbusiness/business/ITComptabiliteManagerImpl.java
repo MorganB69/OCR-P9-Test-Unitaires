@@ -22,7 +22,7 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/bootstrapContext.xml"})
 @ActiveProfiles(profiles="test")
-public class TestITComptabiliteManagerImpl {
+public class ITComptabiliteManagerImpl {
 	
 	//CLASSE A TESTER
 	private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
