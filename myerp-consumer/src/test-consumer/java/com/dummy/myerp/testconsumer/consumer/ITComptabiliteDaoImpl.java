@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -55,6 +56,22 @@ public class ITComptabiliteDaoImpl {
 
 		assertTrue("Test taille de la liste attendu Compte Comptable", liste.size()==7);
 		assertTrue("Test si le compte comptable fournisseur est bien présent",liste.stream().filter(o -> o.getNumero().equals(401)).findFirst().isPresent());
+		
+		
+	}
+	
+	/**
+	 *Vérification de l'obtention de la liste des journaux comptable
+	 */
+	@Test
+	public  void getListJournalComptableTest()  {
+		List<JournalComptable>liste;
+
+		
+		liste=dao.getListJournalComptable();
+
+		assertTrue("Test taille de la liste attendu Compte Comptable", liste.size()==4);
+		assertTrue("Test si le journal fournisseur est bien présent",liste.stream().filter(o -> o.getCode().equals("AC")).findFirst().isPresent());
 		
 		
 	}
