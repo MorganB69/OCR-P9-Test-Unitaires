@@ -51,7 +51,7 @@ public class ITComptabiliteDaoImpl {
 		System.out.println(dao.toString());
 		List<CompteComptable>liste;
 		CompteComptable fournisseur=new CompteComptable();
-		fournisseur.setLibelle("fournisseurs");
+		fournisseur.setLibelle("Fournisseurs");
 		fournisseur.setNumero(401);
 		
 		liste=dao.getListCompteComptable();
