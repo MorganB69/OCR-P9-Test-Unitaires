@@ -48,15 +48,13 @@ public class ITComptabiliteDaoImpl {
 	 */
 	@Test
 	public  void getListCompteComptableTest()  {
-		System.out.println(dao.toString());
 		List<CompteComptable>liste;
-		CompteComptable fournisseur=new CompteComptable();
-		fournisseur.setLibelle("Fournisseurs");
-		fournisseur.setNumero(401);
+
 		
 		liste=dao.getListCompteComptable();
+
 		assertTrue("Test taille de la liste attendu Compte Comptable", liste.size()==7);
-		assertTrue("Test d'un compte comptable", liste.contains(fournisseur));
+		assertTrue("Test si le compte comptable fournisseur est bien présent",liste.stream().filter(o -> o.getNumero().equals(401)).findFirst().isPresent());
 		
 		
 	}
