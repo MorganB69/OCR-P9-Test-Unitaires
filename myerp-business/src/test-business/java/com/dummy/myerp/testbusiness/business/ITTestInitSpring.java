@@ -8,12 +8,12 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Classe de test de l'initialisation du contexte Spring
  */
-public class TestInitSpringIT extends BusinessTestCase {
+public class ITTestInitSpring extends BusinessTestCase {
 
     /**
      * Constructeur.
      */
-    public TestInitSpringIT() {
+    public ITTestInitSpring() {
         super();
     }
 
