@@ -73,6 +73,23 @@
                 )
             </value>
         </property>
+                <property name="SQLinsertSequence">
+            <value>
+                INSERT INTO myerp.sequence_ecriture_comptable (
+                    journal_code, annee, derniere_valeur
+                ) VALUES (
+                    :journal_code, :annee, :derniere_valeur
+                )
+            </value>
+        </property>
+        <property name="SQLupdateSequence">
+            <value>
+                UPDATE myerp.sequence_ecriture_comptable SET 
+                    derniere_valeur = :derniere_valeur
+                WHERE journal_code = :journal_code AND annee = :annee
+                
+            </value>
+        </property>
         <property name="SQLupdateEcritureComptable">
             <value>
                 UPDATE myerp.ecriture_comptable SET
