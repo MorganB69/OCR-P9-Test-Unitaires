@@ -29,7 +29,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/bootstrapContext.xml"})
-@ActiveProfiles(profiles="dev")
+@ActiveProfiles(profiles="test")
 @Transactional
 public class ITComptabiliteManagerImpl {
 	

@@ -33,7 +33,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/com/dummy/myerp/consumer/applicationContext.xml"})
-@ActiveProfiles(profiles="dev")
+@ActiveProfiles(profiles="test")
 public class ITComptabiliteDaoImpl {
 	
 	//CLASSE A TESTER
