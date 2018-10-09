@@ -166,9 +166,10 @@ public class ComptabiliteManagerImplTest {
 
     /**
      * Verification de l'ajout d'une reference
+     * @throws NotFoundException 
      */
     @Test
-    public void checkAdd() {
+    public void checkAdd() throws NotFoundException {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -186,8 +187,7 @@ public class ComptabiliteManagerImplTest {
         vSeq1.setDerniereValeur(15);
 
 
-        SequenceEcritureComptable vSeq2= new SequenceEcritureComptable();
-        vSeq2=null;
+
 
         
 
@@ -205,7 +205,7 @@ public class ComptabiliteManagerImplTest {
         assertTrue("sequence existante :"+ vEcritureComptable.toString(), vEcritureComptable.getReference().equals("AC-2018/00016"));
         
         
-        when(this.comptaDaoMock.getLastSequence(vEcritureComptable)).thenReturn(vSeq2);                
+        when(this.comptaDaoMock.getLastSequence(vEcritureComptable)).thenThrow(NotFoundException.class);                
         this.manager.addReference(vEcritureComptable);	
         assertTrue("sequence non existante" + vEcritureComptable.toString(), vEcritureComptable.getReference().equals("AC-2018/00001"));
         

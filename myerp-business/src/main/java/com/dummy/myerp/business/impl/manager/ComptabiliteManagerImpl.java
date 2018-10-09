@@ -64,7 +64,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * {@inheritDoc}
      * */
     @Override
-    public SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) {
+    public SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) throws NotFoundException {
     	return getDaoProxy().getComptabiliteDao().getLastSequence(pEcritureComptable);
     	
     }
@@ -100,17 +100,22 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	vSequenceEcritureComptable = new SequenceEcritureComptable();   	
     	vSequenceToInsert = new SequenceEcritureComptable();
     	
-    	//Récupération de la dernière séquence
-    	vSequenceEcritureComptable= getLastSequence(pEcritureComptable);
     	
     	//Calcul de la dernière séquence
     	int derniereSequence;
-    	if(vSequenceEcritureComptable==null) {
-    		derniereSequence=1;
-    	}
-    	else {
-    		derniereSequence=vSequenceEcritureComptable.getDerniereValeur()+1;
-    	}
+    	
+    	//Récupération de la dernière séquence
+    	try {
+			vSequenceEcritureComptable= getLastSequence(pEcritureComptable);
+			derniereSequence=vSequenceEcritureComptable.getDerniereValeur()+1;
+		} catch (NotFoundException e1) {
+			// TODO Auto-generated catch block
+			derniereSequence=1;
+			vSequenceEcritureComptable=null;
+		}
+    	
+    	
+
     	
     	//Composition de la référence
     	String ref = "";

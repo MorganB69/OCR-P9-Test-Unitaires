@@ -7,6 +7,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.dummy.myerp.technical.exception.NotFoundException;
 
 
 /**
@@ -42,8 +43,9 @@ public interface ComptabiliteManager {
      * Obtenir la dernière séquence
      * 
      * @return
+     * @throws NotFoundException 
      */
-    SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable);
+    SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) throws NotFoundException;
 
     /**
      * Ajoute une référence à l'écriture comptable.

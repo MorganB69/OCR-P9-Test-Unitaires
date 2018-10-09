@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dummy.myerp.business.impl.BusinessProxyImpl;
 import com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl;
@@ -22,6 +23,7 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/bootstrapContext.xml"})
 @ActiveProfiles(profiles="test")
+@Transactional
 public class ITComptabiliteManagerImpl {
 	
 	//CLASSE A TESTER

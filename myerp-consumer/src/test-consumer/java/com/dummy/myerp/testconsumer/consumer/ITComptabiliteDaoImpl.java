@@ -3,25 +3,31 @@ package com.dummy.myerp.testconsumer.consumer;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -96,6 +102,31 @@ public class ITComptabiliteDaoImpl {
             assertThat(e.getMessage(), is("EcritureComptable non trouvée : reference=" + nonexiste));
         }
 	}
+	
+	@Test
+	public void getLastSequenceTest() throws NotFoundException {
+		EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2016,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        
+        SequenceEcritureComptable last = dao.getLastSequence(vEcritureComptable);
+        
+        //Test sur une séquence déjà existante  
+        assertTrue("Vérification de la dernière séquence existente", last.getDerniereValeur()==40);
+        
+        calendar.set(2017,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        
+        //Test sur une nouvelle séquence
+      
+        try {
+        	 last= dao.getLastSequence(vEcritureComptable);
+            fail("NotFound Exception attendu");
+        } catch (NotFoundException e) {
+            assertThat(e.getMessage(), is("Séquence non existante"));
+        }}
 	
 	
 

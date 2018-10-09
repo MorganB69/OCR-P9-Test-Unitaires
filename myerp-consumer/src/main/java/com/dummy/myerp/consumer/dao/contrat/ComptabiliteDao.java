@@ -59,8 +59,9 @@ public interface ComptabiliteDao {
      * Renvoie la séquence correspondant au journal et la date de l'écriture
      * @param pEcritureComptable
      * @return
+     * @throws NotFoundException 
      */
-    SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable);
+    SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) throws NotFoundException;
    
     /**
      * Charge la liste des lignes d'écriture de l'écriture comptable {@code pEcritureComptable}

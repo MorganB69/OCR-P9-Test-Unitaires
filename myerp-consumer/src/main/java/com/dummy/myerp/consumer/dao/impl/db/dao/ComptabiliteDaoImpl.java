@@ -87,7 +87,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     
     
 	@Override
-	public SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) {
+	public SequenceEcritureComptable getLastSequence(EcritureComptable pEcritureComptable) throws NotFoundException {
 		 NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
 	     MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
 	    
@@ -100,8 +100,12 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 	     
 	     SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
 	     SequenceEcritureComptable vBean= new SequenceEcritureComptable();
-         vBean = vJdbcTemplate.queryForObject(SQLgetLastSequence, vSqlParams, vRM);
-
+         
+         try {
+        	 vBean = vJdbcTemplate.queryForObject(SQLgetLastSequence, vSqlParams, vRM);
+         } catch (EmptyResultDataAccessException vEx) {
+             throw new NotFoundException("Séquence non existante");
+         }
 
 	     return vBean;
 	}
