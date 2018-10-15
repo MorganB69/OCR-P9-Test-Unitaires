@@ -3,18 +3,13 @@ package com.dummy.myerp.testconsumer.consumer;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,11 +24,9 @@ import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
-import junit.framework.AssertionFailedError;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/com/dummy/myerp/consumer/applicationContext.xml"})
-@ActiveProfiles(profiles="dev")
+@ActiveProfiles(profiles="test")
 @Transactional
 public class ITComptabiliteDaoImpl {
 	
@@ -65,6 +58,8 @@ public class ITComptabiliteDaoImpl {
 		assertNotNull("Verification que l'ecriture n'est pas nulle",testEcriture);
 		assertTrue("Verification de la reference de l ecriture",testEcriture.getReference().equals("AC-2016/00001"));
 		assertFalse(testEcriture.getLibelle()=="");
+		
+		assertTrue("Verification que la liste des lignes d'écriture a été chargée", testEcriture.getListLigneEcriture().size()==3);
 		
 		//RECUPERATION ECRITURE NON EXISTENTE
 		pId=12;
@@ -199,4 +194,101 @@ public class ITComptabiliteDaoImpl {
         assertNotNull(testEcriture);
        
 	}
+	
+	/**
+	 * Vérification de l'update d'une ecriture comptable en bd
+	 * @throws NotFoundException
+	 */
+	@Test
+	public void updateEcritureComptableTest () throws NotFoundException {
+		
+		EcritureComptable testEcritureToUpdate;
+		testEcritureToUpdate = dao.getEcritureComptable(-1);
+		testEcritureToUpdate.setReference("AC-2018/00001");
+		
+		dao.updateEcritureComptable(testEcritureToUpdate);
+		
+		EcritureComptable testEcritureUpdated;
+		
+		testEcritureUpdated = dao.getEcritureComptableByRef("AC-2018/00001");
+		
+		assertNotNull("vérification que l'ecriture mise à jour est trouvée avec la nouvelle ref",testEcritureUpdated);
+		
+		
+		
+	}
+	
+	/**
+	 *Verification d'une suppression d'ecriture en bd 
+	 * @throws NotFoundException 
+	 */
+	@Test
+	public void deleteEcritureComptableTest() throws NotFoundException {
+		Integer pId=-1;
+		EcritureComptable testEcriture;
+		testEcriture = dao.getEcritureComptable(pId);
+		dao.deleteEcritureComptable(pId);
+
+		
+		//Verification que l'ecriture n'existe plus
+		try {
+			 
+			 testEcriture = dao.getEcritureComptable(pId);
+	            fail("NotFound Exception attendu");
+	        } catch (NotFoundException e) {
+	            assertThat(e.getMessage(), is("EcritureComptable non trouvée : id=" + pId));
+	        }
+		
+		//Clear de la liste des lignes d'ecritures
+		testEcriture.getListLigneEcriture().clear();
+		
+		
+		dao.loadListLigneEcriture(testEcriture);
+		
+		//Verification que les lignes d'ecritures ont été supprimées
+		
+		assertTrue(testEcriture.getListLigneEcriture().isEmpty());
+		
+		
+	
+	}
+	
+	@Test
+	public void insertSequenceTest() throws NotFoundException {
+		SequenceEcritureComptable sequence = new SequenceEcritureComptable(2018, 42);
+		dao.insertSequence(sequence, "AC");
+		
+		EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        
+        SequenceEcritureComptable last = dao.getLastSequence(vEcritureComptable);
+        assertTrue("Verif de la dernière séquence insérée",last.getDerniereValeur()==42);
+        assertFalse(last.getAnnee()==2016);
+		
+			}
+	
+	@Test
+	public void updateSequenceTest() throws NotFoundException {
+		EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2016,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        
+        SequenceEcritureComptable last = dao.getLastSequence(vEcritureComptable);
+        
+        last.setDerniereValeur(45);
+        
+        dao.updateSequence(last, "AC");
+        
+        last= dao.getLastSequence(vEcritureComptable);
+        
+        assertTrue("verif que la séquence a été mise à jour",last.getDerniereValeur()==45);
+        assertFalse(last.getAnnee()==2018);
+	}
+	
+
 }
