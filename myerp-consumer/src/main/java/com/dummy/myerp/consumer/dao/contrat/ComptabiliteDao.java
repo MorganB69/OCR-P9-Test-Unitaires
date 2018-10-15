@@ -107,5 +107,5 @@ public interface ComptabiliteDao {
 	 */
 	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code);
     
-    String testString();
+
 }

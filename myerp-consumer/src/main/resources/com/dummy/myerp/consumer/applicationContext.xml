@@ -65,6 +65,11 @@
     
     
     </bean>
+    
+    <!-- PlatformTransactionManager pour le DataSource MYERP -->
+    <bean id="txManagerMYERP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceMYERP"/>
+    </bean>
     </beans>
     
     
@@ -88,6 +93,10 @@
 		<property name="password" value="${db.connection.password}" />
     
     
+    </bean>
+        <!-- PlatformTransactionManager pour le DataSource MYERP -->
+    <bean id="txManagerMYERP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceMYERP"/>
     </bean>
     </beans>
     

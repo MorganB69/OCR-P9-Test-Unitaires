@@ -342,11 +342,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 		
 	}
 
-	@Override
-	public String testString() {
-		// TODO Auto-generated method stub
-		return "Bonjour";
-	}
+
     }
 
 

@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -27,6 +28,7 @@ import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
@@ -34,6 +36,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/com/dummy/myerp/consumer/applicationContext.xml"})
 @ActiveProfiles(profiles="test")
+@Transactional
 public class ITComptabiliteDaoImpl {
 	
 	//CLASSE A TESTER
@@ -129,5 +132,30 @@ public class ITComptabiliteDaoImpl {
         }}
 	
 	
-
+	@Test
+	public void insertEcritureTest() throws FunctionalException, NotFoundException {
+		
+		EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        Calendar calendar = new GregorianCalendar(2018,1,1);
+        vEcritureComptable.setDate(calendar.getTime());
+        vEcritureComptable.setReference("AC-2018/00001");
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                                                                                 null, new BigDecimal("123.42"),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
+                                                                                 null, null,
+                                                                                 new BigDecimal("123.42")));
+        
+        dao.insertEcritureComptable(vEcritureComptable);
+        
+        EcritureComptable testEcriture;
+        
+        testEcriture = dao.getEcritureComptableByRef("AC-2018/00001");
+        
+        assertNotNull(testEcriture);
+       
+	}
 }
