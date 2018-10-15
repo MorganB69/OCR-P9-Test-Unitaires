@@ -2,11 +2,7 @@ package com.dummy.myerp.testconsumer.consumer;
 
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -33,9 +29,11 @@ import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
+import junit.framework.AssertionFailedError;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/com/dummy/myerp/consumer/applicationContext.xml"})
-@ActiveProfiles(profiles="test")
+@ActiveProfiles(profiles="dev")
 @Transactional
 public class ITComptabiliteDaoImpl {
 	
@@ -51,6 +49,49 @@ public class ITComptabiliteDaoImpl {
 	public void testDaoNull() {
 		assertNotNull(dao);
 
+	}
+	
+	/**
+	 * Récupération d'une écriture par ID
+	 * @throws NotFoundException
+	 */
+	@Test 
+	public void getEcritureComptableByIdTest() throws NotFoundException {
+		EcritureComptable testEcriture;
+		Integer pId=-1;
+		//RECUPERATION ECRITURE EXISTENTE
+		testEcriture = dao.getEcritureComptable(pId);
+		
+		assertNotNull("Verification que l'ecriture n'est pas nulle",testEcriture);
+		assertTrue("Verification de la reference de l ecriture",testEcriture.getReference().equals("AC-2016/00001"));
+		assertFalse(testEcriture.getLibelle()=="");
+		
+		//RECUPERATION ECRITURE NON EXISTENTE
+		pId=12;
+		 try {
+			 
+			 testEcriture = dao.getEcritureComptable(pId);
+	            fail("NotFound Exception attendu");
+	        } catch (NotFoundException e) {
+	            assertThat(e.getMessage(), is("EcritureComptable non trouvée : id=" + pId));
+	        }
+		
+	}
+	
+	/**
+	 * Vérification de l'obtention de la liste des écritures comptables
+	 */
+	@Test
+	public void getListEcritureComptableTest() {
+		List<EcritureComptable>liste;
+
+		
+		liste=dao.getListEcritureComptable();
+
+		assertTrue("Test taille de la liste attendu Ecritures Comptables", liste.size()==5);
+		assertTrue("Test si une ecriture test est bien présente",liste.stream().filter(o -> o.getReference().equals("BQ-2016/00005")).findFirst().isPresent());
+		
+		
 	}
 	
 	/**
