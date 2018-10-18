@@ -290,5 +290,22 @@ public class ITComptabiliteDaoImpl {
         assertFalse(last.getAnnee()==2018);
 	}
 	
+	@Test
+	public void getListEcritureComptableByCompteTest() {
+		
+		List<LigneEcritureComptable>liste;
+		
+		
+		liste=dao.getListLigneEcritureComptableByCompte(512);
+
+		assertTrue("Test taille de la liste attendu Ligne Ecriture Comptable", liste.size()==2);
+		liste.clear();
+		
+		liste=dao.getListLigneEcritureComptableByCompte(411);
+		assertTrue("Test taille de la liste attendu Ligne Ecriture Comptable", liste.size()==3);
+		
+		
+	}
+	
 
 }

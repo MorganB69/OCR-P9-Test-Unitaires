@@ -5,6 +5,7 @@ import java.util.List;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -106,6 +107,14 @@ public interface ComptabiliteDao {
 	 * @param code
 	 */
 	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code);
+
+
+	/**
+	 * Renvoie la liste des lignes d'écriture comptable pour un compte
+	 * @param pCompteComptable
+	 * @return
+	 */
+	List<LigneEcritureComptable> getListLigneEcritureComptableByCompte(int pCompteComptable);
     
 
 }

@@ -157,5 +157,28 @@ vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new Com
 	        assertTrue("Séquence mise à jour en bd sur non existante",last.getAnnee()==2018&&last.getDerniereValeur()==1);
 		
 	}
+	
+	@Test
+	public void getSoldeTest() {
+		
+		//Test d'un compte débiteur
+		BigDecimal solde = this.manager.getSoldeComptable(512);
+		BigDecimal resultatAttendu = new BigDecimal("2947.26");
+		
+		assertTrue(solde.toString()+" "+resultatAttendu.toString(), solde.compareTo(resultatAttendu)==0);
+		
+		//Test d'un compte créditeur
+		solde=this.manager.getSoldeComptable(706);
+		resultatAttendu=new BigDecimal("-7250");
+		assertTrue(solde.toString()+" "+resultatAttendu.toString(), solde.compareTo(resultatAttendu)==0);
+		
+		//Test d'un compte nul ou n'existe pas
+		solde=this.manager.getSoldeComptable(201);
+		resultatAttendu=new BigDecimal("0");
+		assertTrue(solde.toString()+" "+resultatAttendu.toString(), solde.compareTo(resultatAttendu)==0);
+		
+		
+		
+	}
 
 }

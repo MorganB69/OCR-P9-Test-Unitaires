@@ -1,5 +1,7 @@
 package com.dummy.myerp.business.contrat.manager;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
@@ -110,6 +112,14 @@ public interface ComptabiliteManager {
 	 * @throws FunctionalException
 	 */
 	void updateSequence(SequenceEcritureComptable vSequenceToInsert, String code) throws FunctionalException;
+
+
+	/**
+	 * Renvoie le solde d'un compte comptable
+	 * @param pCompteComptable
+	 * @return
+	 */
+	BigDecimal getSoldeComptable(int pCompteComptable);
 
 
 	

@@ -79,6 +79,10 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vList;
     }
     
+
+    
+    
+    
     /** SQLgetLastSequence */
     private static String SQLgetLastSequence;
     public void setSQLgetLastSequence(String pSQLgetLastSequence) {
@@ -109,6 +113,8 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
 	     return vBean;
 	}
+	
+	
 
 
     // ==================== EcritureComptable - GET ====================
@@ -167,7 +173,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         }
         return vBean;
     }
+    /** SQLgetListLigneEcritureComptable */
+    private static String SQLgetListLigneEcritureComptable;
+    public void setSQLgetListLigneEcritureComptable(String pSQLgetListLigneEcritureComptable) {
+    	SQLgetListLigneEcritureComptable = pSQLgetListLigneEcritureComptable;
+    }
+    @Override
+    public List<LigneEcritureComptable> getListLigneEcritureComptableByCompte(int pCompteComptable) {
+    	NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("compte_comptable_numero", pCompteComptable);
+        LigneEcritureComptableRM vRM = new LigneEcritureComptableRM();
+        List<LigneEcritureComptable> vList = vJdbcTemplate.query(SQLgetListLigneEcritureComptable, vSqlParams, vRM);
 
+        return vList;
+    }
 
     /** SQLloadListLigneEcriture */
     private static String SQLloadListLigneEcriture;
