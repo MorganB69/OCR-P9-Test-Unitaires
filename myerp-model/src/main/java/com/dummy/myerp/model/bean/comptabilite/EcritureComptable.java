@@ -89,7 +89,7 @@ public class EcritureComptable {
                 vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
             }
         }
-        vRetour=vRetour.setScale(2,RoundingMode.UP);
+
         return vRetour;
     }
 
@@ -105,7 +105,7 @@ public class EcritureComptable {
                 vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
             }
         }
-        vRetour=vRetour.setScale(2,RoundingMode.UP);
+
         
         return vRetour;
     }
@@ -115,7 +115,11 @@ public class EcritureComptable {
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
+    	int compare = this.getTotalDebit().compareTo(getTotalCredit());
+    	boolean vRetour;
+    	if (compare==0) vRetour=true;
+    	else vRetour=false;
+    	
         return vRetour;
     }
 
